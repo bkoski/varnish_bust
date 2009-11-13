@@ -6,6 +6,7 @@ require 'timeout'
 
 # Setup vendored library paths
 Dir.glob(File.join(File.dirname(__FILE__), "vendor", "*", "lib")).each{ |vendor| $:.unshift << vendor }
+require 'klarlack'
 
 # This is the address for the varnish server
 VARNISH_SERVER = 'your-server:6082'
