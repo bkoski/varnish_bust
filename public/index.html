@@ -1,0 +1,211 @@
+<html>
+	<head>
+		<style>
+			h1 {
+				margin-bottom: 10px;
+			}
+			body {
+				font-family: Helvetica, Arial, sans-serif;
+			}
+			input {
+				font-size: 18px;
+				padding: 3px;
+				font-family: Helvetica, Arial, sans-serif;
+			}
+			input.urls {
+				width: 95%;
+			}
+			
+			button.bust {
+				border:1px solid #777;
+				background-color: #DDD;
+				padding: 4px;
+				font-size: 16px;
+				font-family: Helvetica, Arial, sans-serif;
+			}
+			
+			button.bust:hover {
+				background-color: #800517;
+				color: white;
+			}
+			
+			h3 {
+				margin-top: 25px;
+			}
+			
+			.credit {
+				font-size: 12px;
+				font-weight: normal;
+			}
+			
+			#container {
+				width: 80%;
+				margin: 80px auto;
+			}
+			
+			#quickref {
+				background-color: #DDD;
+				padding: 10px;
+				border: 1px solid #777;
+				margin-top: 25px;
+			}
+			
+			#quickref h3 {
+				margin: 2px 0 10px 5px;
+			}
+			
+			#quickref td {
+				font-size: 14px;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div id="container">
+			<h1>Varnish Bust</h1>
+		
+			<form action="bust" method="get">
+				<input type="text" name="urls" class="urls" />
+				<button class="bust">Bust</button>
+			</form>
+			
+			<h3>Enter a comma-delimited list of patterns to bust.</h3>
+			<p>
+				<strong>Example:</strong> projects.nytimes.com/madoff.*,elections.nytimes.com.*
+			</p>
+			
+
+	      <div id="quickref">
+
+			<h3>Regex quick reference <span class="credit">(borrowed from <a href="http://rubular.com">Rubular</a>)</span></h3>
+
+	        <div style="float:left">
+
+	          <table>
+	            <tr>
+	              <td><code>[abc]</code></td>
+
+	              <td>A single character: a, b or c</td>
+	            </tr>
+	            <tr>
+	              <td><code>[^abc]</code></td>
+	              <td>Any single character <em>but</em> a, b, or c</td>
+	            </tr>
+
+	            <tr>
+	              <td><code>[a-z]</code></td>
+	              <td>Any single character in the range a-z</td>
+	            </tr>
+	            <tr>
+	              <td><code>[a-zA-Z]</code></td>
+	              <td>Any single character in the range a-z or A-Z</td>
+
+	            </tr>
+	            <tr>
+	              <td><code>^</code></td>
+	              <td>Start of line</td>
+	            </tr>
+	            <tr>
+	              <td><code>$</code></td>
+
+	              <td>End of line</td>
+	            </tr>
+	            <tr>
+	              <td><code>\A</code></td>
+	              <td>Start of string</td>
+	            </tr>
+	            <tr>
+
+	              <td><code>\z</code></td>
+	              <td>End of string</td>
+	            </tr>
+	          </table>
+	        </div>
+
+	        <div style="float:left">
+	          <table>
+	            <tr>
+
+	              <td><code>.</code></td>
+	              <td>Any single character</td>
+	            </tr>
+	          <tr>
+	            <td><code>\s</code></td>
+	            <td>Any whitespace character</td>
+	          </tr>
+
+	          <tr>
+	            <td><code>\S</code></td>
+	            <td>Any non-whitespace character</td>
+	          </tr>
+	          <tr>
+	            <td><code>\d</code></td>
+	            <td>Any digit</td>
+
+	          </tr>
+	          <tr>
+	            <td><code>\D</code></td>
+	            <td>Any non-digit</td>
+	          </tr>
+	          <tr>
+	            <td><code>\w</code></td>
+
+	            <td>Any word character (letter, number, underscore)</td>
+	          </tr>
+	          <tr>
+	            <td><code>\W</code></td>
+	            <td>Any non-word character</td>
+	          </tr>
+	          <tr>
+
+	            <td><code>\b</code></td>
+	            <td>Any word boundary character</td>
+	          </tr>
+	        </table>
+	      </div>
+
+	      <table>
+	        <tr>
+
+	          <td><code>(...)</code></td>
+	          <td>Capture everything enclosed</td>
+	        </tr>
+	        <tr>
+	          <td><code>(a|b)</code></td>
+	          <td>a or b</td>
+	        </tr>
+
+	        <tr>
+	          <td><code>a?</code></td>
+	          <td>Zero or one of a</td>
+	        </tr>
+	        <tr>
+	          <td><code>a*</code></td>
+	          <td>Zero or more of a</td>
+
+	        </tr>
+	        <tr>
+	          <td><code>a+</code></td>
+	          <td>One or more of a</td>
+	        </tr>
+	        <tr>
+	          <td><code>a{3}</code></td>
+
+	          <td>Exactly 3 of a</td>
+	        </tr>
+	        <tr>
+	          <td><code>a{3,}</code></td>
+	          <td>3 or more of a</td>
+	        </tr>
+	        <tr>
+
+	          <td><code>a{3,6}</code></td>
+	          <td>Between 3 and 6 of a</td>
+	        </tr>        
+	      </table>
+	      
+			
+		</div>
+	</body>
+
+</html>
