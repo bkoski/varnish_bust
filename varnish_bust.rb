@@ -7,8 +7,8 @@ get '/bust' do
     varnish = Varnish::Client.new(VARNISH_SERVER)
     urls = params['urls'].split(',')
     Timeout::timeout(3) do
-      urls.each do
-        varnish.purge :url, params[:url]
+      urls.each do |url|
+        varnish.purge :url, params[url]
       end
     end
   rescue Timeout::Error
