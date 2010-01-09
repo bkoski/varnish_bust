@@ -9,7 +9,17 @@ Dir.glob(File.join(File.dirname(__FILE__), "vendor", "*", "lib")).each{ |vendor|
 require 'klarlack'
 
 # This is the address for the varnish server
-VARNISH_SERVER = 'your-server:6082'
+begin
+	require File.expand_path(File.join(File.dirname(__FILE__), '..', 'shared', 'varnish_config'))
+rescue LoadError
+	VARNISH_SERVER = 'localhost:6082'
+end
+
+# Set up log file
+log = File.new("log/staging.log", "a") # This will make a nice sinatra log along side your apache access and error logs
+STDOUT.reopen(log)
+STDERR.reopen(log)
+
 
 require 'varnish_bust'
 run Sinatra::Application
