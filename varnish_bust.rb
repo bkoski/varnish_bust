@@ -1,14 +1,17 @@
-
-
 get '/bust' do
-  halt 400, "ERROR: no urls param provided" if request.params['urls'].nil? || request.params['urls'].empty?
+  if params['hashes'].present?
+    hashes_to_purge = params['hashes'].split(',')
+  elsif params['host'].present? && params['paths'].present?
+    hashes_to_purge = paths.split(',').collect { |path| "#{params['host']}##{path}" }
+  else
+    halt 400, "ERROR: you must provide either a 'hashes' param or 'host' and 'path'"
+  end
 
   begin
     varnish = Varnish::Client.new(VARNISH_SERVER)
-    urls = params['urls'].split(',')
     Timeout::timeout(3) do
-      urls.each do |url|
-        varnish.purge :url, url
+      hashes_to_purge.each do |h|
+        varnish.purge :hash, h
       end
     end
   rescue Timeout::Error
@@ -16,6 +19,6 @@ get '/bust' do
   rescue Exception => e
     halt 500, "ERROR: #{e.message}"
   else
-    "OK. #{urls.length} objects purged from #{VARNISH_SERVER}."
+    "OK. Objects purged from #{VARNISH_SERVER}."
   end
 end

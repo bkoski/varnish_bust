@@ -57,6 +57,23 @@
 			#quickref td {
 				font-size: 14px;
 			}
+			
+			.bustParam {
+				float:left;
+				margin-right: 10px;
+			}
+			
+			.bustParam label {
+				display: block;
+				font-size: 14px;
+				font-weight: bold;
+			}
+			
+			.bustParam .example {
+				font-weight: normal;
+				font-size: 12px;
+			}
+			
 		</style>
 
 	</head>
@@ -65,16 +82,17 @@
 			<h1>Varnish Bust</h1>
 		
 			<form action="bust" method="get">
-				<input type="text" name="urls" class="urls" />
-				<button class="bust">Bust</button>
+				<div class="bustParam">
+					<label>Host <span class="example">(Ex: projects.nytimes.com)</span></label>
+					<input type="text" name="urls" style="width:300px;"  />
+				</div>
+				<div class="bustParam">
+					<label>Comma-delimited paths<span class="example">(Ex: madoff.*,nfl.*)</span></label>
+					<input type="text" name="urls" style="width:575px" />
+				</div>
+				<button class="bust" style="margin-top:14px;">Bust</button>
 			</form>
 			
-			<h3>Enter a comma-delimited list of patterns to bust.</h3>
-			<p>
-				<strong>Example:</strong> projects.nytimes.com/madoff.*,elections.nytimes.com.*
-			</p>
-			
-
 	      <div id="quickref">
 
 			<h3>Regex quick reference <span class="credit">(borrowed from <a href="http://rubular.com">Rubular</a>)</span></h3>
@@ -203,8 +221,20 @@
 	          <td>Between 3 and 6 of a</td>
 	        </tr>        
 	      </table>
-	      
 			
+		</div>
+		
+		<h3>API</h3>
+		<table>
+			<tr>
+				<td><tt>/bust?host=projects.nytimes.com&path=madoff.*</tt></td>
+				<td>pass host and path parameters</td>
+			</tr>
+			<tr>
+				<td><tt>/bust?hashes=projects.nytimes.com#madoff.*,projects.nytimes.com#clinton-schedules.*</tt></td>
+				<td>pass comma-delimited list of varnish hashes (host#path)</td>
+			</tr>
+		</table>
 		</div>
 	</body>
 
