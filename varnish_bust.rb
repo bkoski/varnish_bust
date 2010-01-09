@@ -2,7 +2,7 @@ get '/bust' do
   if params['hashes']
     hashes_to_purge = params['hashes'].split(',')
   elsif params['host'] && params['paths']
-    hashes_to_purge = paths.split(',').collect { |path| "#{params['host']}##{path}" }
+    hashes_to_purge = params['paths'].split(',').collect { |path| "#{params['host']}##{path}" }
   else
     halt 400, "ERROR: you must provide either a 'hashes' param or 'host' and 'path'"
   end
