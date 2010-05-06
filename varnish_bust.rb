@@ -1,5 +1,5 @@
 get '/bust' do
-  if ['host', 'path', 'paths'].all? { |key| params[key].blank? }
+  if ['host', 'path', 'paths'].all? { |key| params[key].nil? || params[key].length == 0 }
      halt 400, "ERROR: you must provide a 'host' param and a 'path' or comma-delimited 'paths' key"
   end
   
