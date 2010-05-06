@@ -28,7 +28,7 @@ get '/bust' do
       purge_cmds.each do |cmd|
         puts "purging '#{cmd}' on #{VARNISH_SERVER}..."
         varnish.purge cmd
-=      end
+      end
     end
   rescue Timeout::Error
     halt 500, "ERROR: Request to #{VARNISH_SERVER} timed out."
