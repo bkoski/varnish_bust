@@ -1,17 +1,32 @@
 get '/bust' do
-  if params['hashes']
-    hashes_to_purge = params['hashes'].split(',')
-  elsif params['host'] && params['paths']
-    hashes_to_purge = params['paths'].split(',').collect { |path| "#{params['host']}##{path}" }
+  if ['host', 'path', 'paths'].all? { |key| params[key].blank? }
+     halt 400, "ERROR: you must provide a 'host' param and a 'path' or comma-delimited 'paths' key"
+  end
+  
+  host = params['host']
+  
+  if params['paths']
+    paths = params['paths'].split(',')
   else
-    halt 400, "ERROR: you must provide either a 'hashes' param or 'host' and 'path'"
+    paths = [params['path']]
+  end 
+  
+  # Make sure each path begins with '/'
+  paths.map! do |p|
+    p.strip!
+    p.insert(0,'/') if p[0,1] != '/'
+    p
+  end
+  
+  purge_cmds = paths.collect do |p|
+   "req.http.host ~ #{host} && req.url ~ ^#{p}"
   end
 
   begin
     varnish = Varnish::Client.new(VARNISH_SERVER)
     Timeout::timeout(3) do
-      hashes_to_purge.each do |h|
-        varnish.purge :hash, h
+      purge_cmds.each do |cmd|
+        varnish.purge cmd
       end
     end
   rescue Timeout::Error
