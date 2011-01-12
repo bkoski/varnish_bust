@@ -1,0 +1,8 @@
+# varnish_bust.gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
+daemons -v1.1.0
+eventmachine -v0.12.10
+klarlack -v0.0.6
+sinatra -v1.1.2
+system_timer -v1.0
+thin -v1.2.7
+tilt -v1.2.1
