@@ -23,18 +23,36 @@ get '/bust' do
   end
 
   begin
-    varnish = Varnish::Client.new(VARNISH_SERVER)
+    server = varnish_host(params['server'])
+    varnish = Varnish::Client.new(server)
     Timeout::timeout(3) do
       purge_cmds.each do |cmd|
-        puts "purging '#{cmd}' on #{VARNISH_SERVER}..."
-        varnish.purge cmd
+        puts "purging '#{cmd}' on #{server}..."
+        # varnish.purge cmd
       end
     end
   rescue Timeout::Error
-    halt 500, "ERROR: Request to #{VARNISH_SERVER} timed out."
+    halt 500, "ERROR: Request to #{server} timed out."
   rescue Exception => e
     halt 500, "ERROR: #{e.message}"
   else
-    "OK. Objects purged from #{VARNISH_SERVER}."
+    "OK. Objects purged from #{server}."
   end
+end
+
+private
+def varnish_host(server_name)
+  if defined?(VARNISH_SERVERS)
+    if server_name.nil? || server_name.empty?
+      addr = VARNISH_SERVERS['default']
+    else
+      addr = VARNISH_SERVERS[server_name]
+    end
+  else # for backwards-compatibility with config files
+    addr = VARNISH_SERVER
+  end
+  
+  halt 500, "ERROR: varnish server #{server_name} unknown." if addr.nil? || addr.empty?
+  
+  return addr
 end
