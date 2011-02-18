@@ -37,7 +37,7 @@ def run_purges(server,purge_cmds)
     Timeout::timeout(3) do
       purge_cmds.each do |cmd|
         puts "purging '#{cmd}' on #{server}..."
-        # varnish.purge cmd
+        varnish.purge(cmd)
       end
     end
   rescue Timeout::Error
